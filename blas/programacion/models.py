@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
@@ -24,51 +25,51 @@ class Materia(models.Model):
     objetivos = models.ManyToManyField(Objetivo)
 
     def __unicode__(self):
-        return self.descripcion;
+        return self.nombre
 
 
 class ResultadoAprendizaje(models.Model):
-    '''Resultados de Aprendizaje en terminología FP'''
+    '''Resultados de Aprendizaje en terminologia FP'''
     orden = models.CharField(max_length=2)
     materia = models.ForeignKey(Materia)
     pesoEnMateria = models.FloatField()
     descripcion = models.CharField(max_length=1000)
     
     def __unicode__(self):
-        return self.descripcion;
+        return self.descripcion
 
 
 class Contenido(models.Model):
     '''Contenidos impartidos relacionados con cada resultado de aprendizaje '''
-    resultadoAprendizaje = models.ForeignKey(models.ResultadoAprendizaje)
+    resultadoAprendizaje = models.ForeignKey(ResultadoAprendizaje)
     descripcion = models.CharField(max_length=1000)
     def __unicode__(self):
-        return self.descripcion;
+        return self.descripcion
 
-
-class CriterioEvaluacion(models.Model):
-    resultadoAprendizaje = models.ForeignKey(models.ResultadoAprendizaje)
-    descripcion = models.CharField(max_length=1000)
-    indicador = models.ForeignKey(models.Indicador)
-
-    def __unicode__(self):
-        return self.descripcion;
-
-
-class IndicadorResultadoAprendizaje(models.model):
-    criterio = models.ForeignKey(models.CriterioEvaluacion)
-    indicador = models.Foreignkey(models.Indicador)
-    '''Peso del indicador para evaluar tal indicador '''
-    pesoEnResultadoAprendizaje = models.FloatField()
-    '''Valor mínimo'''
-    minimo = models.IntegerField()
- 
 
 class Indicador(models.Model):
     ''' Indicador genérico  '''
-    criterios = models.ManyToManyField(CriterioEvaluacion, through='IndicadorResultadoAprendizaje')
+    resultadoAprendizaje = models.ManyToManyField(ResultadoAprendizaje, through='IndicadorResultadoAprendizaje')
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=1000)
 
     def __unicode__(self):
-        return self.nombre;
+        return self.nombre
+
+
+class CriterioEvaluacion(models.Model):
+    resultadoAprendizaje = models.ForeignKey(ResultadoAprendizaje)
+    descripcion = models.CharField(max_length=1000)
+    indicador = models.ForeignKey(Indicador)
+
+    def __unicode__(self):
+        return self.descripcion
+
+
+class IndicadorResultadoAprendizaje(models.Model):
+    resultadoAprendizaje = models.ForeignKey(ResultadoAprendizaje)
+    indicador = models.ForeignKey(Indicador)
+    '''Peso del indicador para evaluar tal indicador '''
+    pesoEnResultadoAprendizaje = models.FloatField()
+    '''Valor mínimo'''
+    minimo = models.IntegerField()
