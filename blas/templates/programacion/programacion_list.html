@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Programaciones</h1>
+    <p>Programaciones didácticas disponibles</p>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>Grupo</th>
+            <th>Asignatura</th>
+        </tr>
+    </thead>
+	{% for programacion in object_list %}
+            <tr>
+            <td>{{ programacion.grupo.nombre }} ({{ programacion.grupo.codigo }})</td>
+            <td><a href="#">{{ programacion.materia.nombre }}</a></td>
+            </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

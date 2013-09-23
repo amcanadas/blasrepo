@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1>{{ object.nombre }} </h1>
+<p>Horas semanales: {{ object.horasSemanales }}</p>
+<h2>Objetivos profesionales</h2>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+{% for oa in object.objetivos.all %}
+            <tr>
+            <td>{{ oa.orden }}</td> <td>{{ oa.descripcion }}</td>
+            </tr>
+        {% endfor %}
+</table>
+<h2>Competencias profesionales</h2>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+{% for oa in object.competencias.all %}
+            <tr>
+            <td>{{ oa.orden }}</td> <td>{{ oa.descripcion }}</td>
+            </tr>
+        {% endfor %}
+</table>
+
+<h2>Contenidos</h2>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+{% for contenido in contenidos %}
+            <tr class="pure-table-odd">
+            <td>{{ contenido.orden }}</td> <td>{{ contenido.descripcion }}</td>
+            </tr>
+            <tr>
+            <td></td>
+            <td>
+                {% for subcontenido in contenido.subcontenido_set.all %}
+                <p>
+                   {{ subcontenido.orden }}) {{ subcontenido.descripcion }}
+                </p>
+                {% endfor %}
+            </td>
+            </tr>
+        {% endfor %}
+</table>
+
+<h2>Resultados de aprendizaje (y Criterios de Evaluación)</h2>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+{% for resultado in resultados %}
+            <tr class="pure-table-odd">
+            <td>{{ resultado.orden }}</td> <td>{{ resultado.descripcion }}</td>
+            </tr>
+            <tr>
+            <td></td>
+            <td>
+                {% for criterio in resultado.criterioevaluacion_set.all %}
+                <p>
+                   {{ criterio.orden }}) {{ criterio.descripcion }}
+                </p>
+                {% endfor %}
+            </td>
+            </tr>
+        {% endfor %}
+</table>
+{% endblock %}

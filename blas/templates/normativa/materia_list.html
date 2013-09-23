@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Currículo de los Módulos</h1>
+    <p>Información sobre la normativa oficial referente a los módulos siguientes</p>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>Acrónimo</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+	{% for modulo in object_list %}
+            <tr>
+            <td><a href="{% url 'normativa:detalles_modulo' modulo.id %}">{{ modulo.nombrecorto }}</a></td>
+            <td>{{ modulo.nombre }}</td>
+            </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}
