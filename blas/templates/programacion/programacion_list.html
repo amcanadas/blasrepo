@@ -13,7 +13,7 @@
 	{% for programacion in object_list %}
             <tr>
             <td>{{ programacion.grupo.nombre }} ({{ programacion.grupo.codigo }})</td>
-            <td><a href="#">{{ programacion.materia.nombre }}</a></td>
+            <td><a href="{% url 'programacion:detalles_programacion' programacion.id %}">{{ programacion.materia.nombre }}</a></td>
             </tr>
         {% endfor %}
 </table>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load l10n %}
+{% block graphs %}
+  <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartPesosRA", {
+
+      title:{
+        text: "Resultados de aprendizaje"              
+      },
+      data: [              
+        {
+
+         type: "pie",
+         toolTipContent: "{label}: {y}%",
+         dataPoints: [
+         {% for oa in pesosOA %}
+            { label : 
+            "{{ oa.resultadoAprendizaje.orden }}",
+            y:
+            {{ oa.pesoNormalizado |unlocalize}}
+            }
+
+            {% if not forloop.last %},{% endif %}
+        {% endfor %}
+         ]
+       }
+       ]
+     });
+    chart.render();
+  }
+  </script>
+  
+  <script type="text/javascript" src="/static/CanvasJS/canvasjs.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<h1>{{ object.nombre }} </h1>
+
+<h2>Resultados de aprendizaje</h2>
+<p>Peso de cada uno de los resultados de aprendizaje</p>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Descripción</th>
+            <th>Peso</th>
+        </tr>
+    </thead>
+{% for oa in pesosOA %}
+            <tr>
+            <td>{{ oa.resultadoAprendizaje.orden }}</td>
+            <td>{{ oa.resultadoAprendizaje.descripcion }}</td>
+            <td>{{ oa.peso }} ({{ oa.pesoNormalizado |floatformat:2 }}%) </td>
+            </tr>
+        {% endfor %}
+</table>
+<div class="pure-g-r" >
+<div class="pure-u">
+  <div id="chartPesosRA" style="height: 300px; width: 100%;">
+  </div>
+</div>
+</div>
+{% endblock %}

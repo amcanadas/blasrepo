@@ -45,6 +45,11 @@ class PesoRAEnMateria(models.Model):
     programacion = models.ForeignKey(Programacion)
     resultadoAprendizaje = models.ForeignKey(normas.ResultadoAprendizaje)
     peso = models.FloatField()
+    
+    @property
+    def pesoNormalizado(self):
+        total=PesoRAEnMateria.objects.filter(programacion=self.programacion).aggregate(models.Sum('peso'))['peso__sum']
+        return (self.peso/total)*100
 
     class Meta:
         ordering = ['programacion','resultadoAprendizaje']
